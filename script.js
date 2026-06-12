@@ -301,7 +301,7 @@ function finalSuccess() {
   const overlay = document.getElementById("success-overlay");
   if (overlay) {
     overlay.classList.remove("hidden");
-    stopAllMusic();
+    //stopAllMusic(); লাইনটি মুছে দেওয়া হয়েছে যাতে সর্বশেষ গানটি বাজতে থাকে
 
     // পেজ যাতে লোড হতে সময় পায়, তাই ৩০০ মি.সে. পরে ইমোজি শুরু হবে
     setTimeout(() => {
@@ -348,23 +348,24 @@ function sendLoves() {
 }
 // ফাংশন: পাসওয়ার্ড পেজ ছাড়া আবার শুরু করা
 function restartExperience() {
-  // সাকসেস ওভারলে লুকানো
   document.getElementById("success-overlay").classList.add("hidden");
 
-  // সব পেজ লুকিয়ে ফেলা
   document.querySelectorAll(".page").forEach((page) => {
     page.classList.remove("active");
   });
 
-  // currentPage রিসেট করা
   currentPage = 1;
-
-  // প্রথম পেজ (পাসওয়ার্ডের পরের পেজ) দেখানো
   document.getElementById("page1").classList.add("active");
 
   // মিউজিক রিসেট করা
   stopAllMusic();
 
-  // স্ক্রলের পজিশন ঠিক করা
+  // ব্যাকগ্রাউন্ড মিউজিক আবার নতুন করে শুরু করা
+  const bgMusic = document.getElementById("bgMusic");
+  if (bgMusic) {
+    bgMusic.volume = 0.5;
+    bgMusic.play().catch((e) => console.log("Audio play failed:", e));
+  }
+
   window.scrollTo(0, 0);
 }
